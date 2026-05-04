@@ -1,16 +1,18 @@
 import type { ITask, ICreateTask, IGenericResponse } from '~/types/task';
 
-import { API_URL } from '~/constants';
-
 export const taskService = {
- 
-  async getAll(): Promise<ITask[]> {
-    const response = await $fetch<IGenericResponse<ITask[]>>(`${API_URL}/tasks`);
-    return response.data;
+
+  getApiBase() {
+    return useRuntimeConfig().public.apiBase;
   },
+
+  async getAll(): Promise<ITask[]> {    
+    const response = await $fetch<IGenericResponse<ITask[]>>(`${this.getApiBase()}/tasks`);
+    return response.data;
+  }, 
   
   async create(task: ICreateTask): Promise<ITask> {
-    const response = await $fetch<IGenericResponse<ITask>>(`${API_URL}/tasks`, {
+    const response = await $fetch<IGenericResponse<ITask>>(`${this.getApiBase()}/tasks`, {
       method: 'POST',
       body: task
     });
@@ -18,7 +20,7 @@ export const taskService = {
   },
  
   async update(id: string, task: Partial<ITask>): Promise<ITask> {
-    const response = await $fetch<IGenericResponse<ITask>>(`${API_URL}/tasks/${id}`, {
+    const response = await $fetch<IGenericResponse<ITask>>(`${this.getApiBase()}/tasks/${id}`, {
       method: 'PUT',
       body: task
     });
@@ -26,7 +28,7 @@ export const taskService = {
   },
 
   async delete(id: string): Promise<void> {
-    await $fetch<IGenericResponse<void>>(`${API_URL}/tasks/${id}`, {
+    await $fetch<IGenericResponse<void>>(`${this.getApiBase()}/tasks/${id}`, {
       method: 'DELETE'
     });
   },

@@ -5,6 +5,12 @@ import { appDescription } from './app/constants/index'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+
+  runtimeConfig: {
+    public: {      
+      apiBase:'https://localhost:7250/api'
+    }
+  },
   modules: ['@nuxt/eslint', '@nuxt/ui', 'shadcn-nuxt', '@vite-pwa/nuxt', '@vueuse/nuxt', '@pinia/nuxt'],
   css: ['~/assets/css/tailwind.css'],
   vite: {
